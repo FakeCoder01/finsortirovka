@@ -1,0 +1,421 @@
+{% include 'app/section/header.html' %}
+{% load static %}
+<title>MFI form fill up</title>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<style>
+  label {
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: bolder;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-decoration: underline;
+  }
+
+  input[type=checkbox],
+  input[type=radio] {
+    width: 20px;
+    height: 20px;
+    fill: red;
+
+  }
+
+  .xtdmk {
+    font-size: 16px;
+    font-weight: 550;
+    text-decoration: none;
+
+  }
+</style>
+
+<body>
+
+  {% include 'app/section/nav.html' %}
+
+  {% if messages %}
+  <div class="alerts-list absolute right-0 mr-4">
+    {% for message in messages %}
+    <div onclick="this.style.display='none';"
+      class="p-2 bg-blue-200 text-blue-800 cursor-pointer p-4 text-sm rounded border border-blue-300 my-3">
+      {{message}}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+
+  <div class=" px-6 pl-6" style="background-color: rgba(255, 255, 255, 0.199);">
+
+    <form style="background-color: antiquewhite;" class="shadow-2xl my-3 max-w-md mx-auto pt-8 md:px-4 xs:px-4 sm:px-4 border border-4-brown" method="POST" action="">
+      <h2 class="italic text-red-500 text-3xl font-bold mb-4 border-b-4 border-t-0 border-red-500">New MFI Application :
+      </h2>
+      {% csrf_token %}
+      <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2" title="Legal Status of User">Субъект правовых
+          отношений:</label>
+        <div class="flex items-center">
+          <input type="radio" name="legal_status_of_user" value="физическое лицо" class="form-radio" id="individual"
+            required>
+          <label for="individual" title="Individual" class="xtdmk ml-2  text-gray-700">физическое лицо</label>
+        </div>
+        <div class="flex items-center mt-2">
+          <input type="radio" name="legal_status_of_user" value="Other" class="form-radio" id="Other" required>
+          <label for="Other" title="Other" class="xtdmk ml-2 text-gray-700">Other</label>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2" title="Confirm Income Source"> Имеется ли у Вас
+          подтверженый доход:
+        </label>
+        <div id="cu_in_so" class="flex flex-wrap -mx-2">
+          <div class="w-1/2 px-2 mb-2">
+            <input type="checkbox" name="confirm_income_source" value="Справка 2-НДФЛ" class="form-checkbox" required
+              id="certificate_2-ndfl">
+            <label for="certificate_2-ndfl" class="xtdmk ml-2 text-gray-700" title="Certificate 2-NDFL">Справка
+              2-НДФЛ</label>
+          </div>
+          <div class="w-1/2 px-2 mb-2">
+            <input type="checkbox" name="confirm_income_source" value="Выписка из ПФР" class="form-checkbox" id="pfr"
+              required>
+            <label for="pfr" title=" Extract from the PFR" class="xtdmk ml-2 text-gray-700">Выписка из ПФР</label>
+          </div>
+          <div class="w-1/2 px-2 mb-2">
+            <input type="checkbox" name="confirm_income_source" value="Справка по форме банка" class="form-checkbox"
+              id="bank_certificate" required>
+            <label for="bank_certificate" class="xtdmk ml-2 text-gray-700"
+              title="Certificate on the form of the bank">Справка
+              по форме банка</label>
+          </div>
+          <div class="w-1/2 px-2 mb-2">
+            <input type="checkbox" name="confirm_income_source" value="Справка об уплате налогов НПД"
+              class="form-checkbox" id="npd_taxes" required>
+            <label for="npd_taxes" class="xtdmk ml-2 text-gray-700" title="Certificate of payment of taxes NPD">Справка
+              об
+              уплате налогов НПД</label>
+          </div>
+
+          <div class="w-1/2 px-2 mb-2">
+            <input type="checkbox" name="confirm_income_source" value="Нет" class="form-checkbox" id="no" required>
+            <label for="no" class="xtdmk ml-2 text-gray-700" title="No">Нет</label>
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">Ваш возраст: </label>
+          <input type="number" name="age_of_user" min="18" max="100"
+            onchange="this.form.age_of_user_range.value = this.value;"
+            class="form-input  w-full bg-white py-2 px-3 rounded-md text-gray-700" value="25" required>
+          <input type="range" id="age_of_user_range" name="age_of_user_range" min="18" max="100"
+            onchange="this.form.age_of_user.value = this.value;"
+            class="form-input w-full bg-white py-2 px-3 rounded-md text-red-700" value="25" required>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">Сумма займа: </label>
+          <input type="number" name="loan_amount" value="100000" min="10000" max="100000000"
+            onchange="this.form.loan_amount_range.value = this.value;"
+            class="form-input w-full bg-white py-2 px-3 rounded-md text-gray-700" required>
+          <input type="range" id="loan_amount_range" value="100000" name="loan_amount_range" min="10000" max="100000000"
+            onchange="this.form.loan_amount.value = this.value;"
+            class="form-input w-full bg-white py-2 px-3 rounded-md text-red-700" required>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">Срок займа в днях:</label>
+          <input type="number" name="loan_tenure_in_days" min="1" max="365"
+            onchange="this.form.loan_tenure_in_days_range.value = this.value;"
+            class="form-input w-full bg-white py-2 px-3 rounded-md text-gray-700" value="90" required>
+          <input type="range" id="loan_tenure_in_days_range" name="loan_tenure_in_days_range" min="1" max="365"
+            onchange="this.form.loan_tenure_in_days.value = this.value;"
+            class="form-input w-full bg-white py-2 px-3 rounded-md text-gray-700" value="90" required>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2"
+            title="Loan Type (Whether You Are Taking a Loan For the First Time)">Тип займа (впервые ли вы берете
+            займ):</label>
+          <div class="flex items-center">
+            <input type="radio" name="loan_type" value="Первичный" class="form-radio" id="Primary" required>
+            <label for="Primary" class="xtdmk ml-2 text-gray-700" title="Primary">Первичный</label>
+          </div>
+          <div class="flex items-center mt-2">
+            <input type="radio" name="loan_type" value="Повторный" class="form-radio" id="Recurrence" required>
+            <label for="Recurrence" title="Recurrence" class="xtdmk ml-2 text-gray-700">Повторный</label>
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2" title="Documents"> Имеющиеся у вас документы:</label>
+          <div id="doc_sel" class="flex flex-wrap -mx-2">
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="Паспорт" class="form-checkbox" id="Passport" required>
+              <label for="Passport" class="ml-2 xtdmk text-gray-700" title="Passport">Паспорт</label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="Военный билет" class="form-checkbox" id="militart_id"
+                required>
+              <label for="militart_id" class="ml-2 xtdmk text-gray-700" title="Military ID">Военный билет</label>
+            </div>
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="СНИЛС" class="form-checkbox" id="SNILS" required>
+              <label for="SNILS" class="ml-2 xtdmk text-gray-700" title="SNILS">СНИЛС</label>
+            </div>
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="Пенсионное удостоверение" class="form-checkbox" required
+                id="pension_certificate">
+              <label for="pension_certificate" class="xtdmk ml-2 text-gray-700" title="Pension certificate">Пенсионное
+                удостоверение</label>
+            </div>
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="транспортное средство в собственности" required
+                class="form-checkbox" id="vehicle_ownership">
+              <label for="vehicle_ownership" title="vehicle in ownership" class="ml-2 xtdmk text-gray-700">транспортное
+                средство в собственности</label>
+            </div>
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="Регистрация по месту жительства" class="form-checkbox"
+                id="place_residence" required>
+              <label for="place_residence" class="xtdmk ml-2 text-gray-700"
+                title="Registration at the place of residence">Регистрация по месту жительства</label>
+            </div>
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="Водительское удостоверение" class="form-checkbox"
+                id="dirver_license" required>
+              <label for="dirver_license" class="xtdmk ml-2 text-gray-700"
+                title="Driver's license Citizenship of the Russian Federation">Водительское удостоверение</label>
+            </div>
+
+
+
+            <!-- <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="documents" value="Others" class="form-checkbox" id="others">
+              <label for="others" class="ml-2 text-gray-700">Others</label>
+            </div> -->
+          </div>
+        </div>
+        <div  class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2" title="Method of Receiving Money ">Желаемый способ
+            получения денег:</label>
+          <div id="mo_re" class="flex flex-wrap -mx-2">
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" required value="Visa" class="form-checkbox"
+                id="visa">
+              <label for="visa" class="xtdmk ml-2 xtdmk text-gray-700" title="Visa">Visa</label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="Mastercard" class="form-checkbox"
+                id="Mastercard" required>
+              <label for="cheque" class="xtdmkml-2 xtdmk text-gray-700" title="Mastercard">Mastercard</label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="МИР" class="form-checkbox" id="mir"
+                required>
+              <label for="mir" title="MIR" class="ml-2 xtdmk text-gray-700">МИР </label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="Банковский счёт" class="form-checkbox"
+                id="bank_account" required>
+              <label for="bank_account" class="ml-2 xtdmk text-gray-700" title="Bank Account">Банковский счёт</label>
+            </div>
+
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="QIWI" class="form-checkbox" id="QIWI"
+                required>
+              <label for="QIWI" class="ml-2 xtdmk text-gray-700" title="QIWI">QIWI</label>
+            </div>
+
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="Золотая Корона" class="form-checkbox"
+                id="golden_crown" required>
+              <label for="golden_crown" class="xtdmk ml-2 text-gray-700" title="Golden Crown">Золотая Корона</label>
+            </div>
+
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="CONTACT" class="form-checkbox" id="CONTACT"
+                required>
+              <label for="CONTACT" class="xtdmk ml-2 text-gray-700" title="CONTACT">CONTACT</label>
+            </div>
+
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="Яндекс Деньги" class="form-checkbox"
+                id="yandex_money" required>
+              <label title="Yandex Money" for="yandex_money" class="xtdmk ml-2 text-gray-700">Яндекс Деньги</label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="Maestro" class="form-checkbox" id="Maestro"
+                required>
+              <label title="Maestro" for="Maestro" class="xtdmk ml-2 text-gray-700">Maestro</label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="CyberPlat" class="form-checkbox"
+                id="CyberPlat" required>
+              <label title="CyberPlat" for="CyberPlat" class="xtdmk ml-2 text-gray-700">CyberPlat</label>
+            </div>
+
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="В офисе" class="form-checkbox"
+                id="in_office" required>
+              <label title="In Office" for="in_office" class="xtdmk ml-2 text-gray-700">В офисе</label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="Курьером" class="form-checkbox" id="xtl"
+                required>
+              <label title="Курьером" for="xtl" class="xtdmk ml-2 text-gray-700">Курьером</label>
+            </div>
+
+            <div class="w-1/2 px-2 mb-2">
+              <input type="checkbox" name="method_of_receiving_money" value="Элекснет" class="form-checkbox" id="ytl"
+                required>
+              <label title="Элекснет" for="ytl" class="xtdmk ml-2 text-gray-700">Элекснет</label>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2" title="Region"> Ваш регион:</label>
+          <select class="w-full form-select bg-white py-2 px-3 rounded-md text-gray-700" name="region" required>
+            <option value="Алтайский край">Алтайский край</option>
+            <option value="Амурская область">Амурская область</option>
+            <option value="Архангельская область">Архангельская область</option>
+            <option value="Астраханская область">Астраханская область</option>
+            <option value="Белгородская область">Белгородская область</option>
+            <option value="Брянская область">Брянская область</option>
+            <option value="Владимирская область">Владимирская область</option>
+            <option value="Волгоградская область">Волгоградская област</option>
+            <option value="Вологодская область">Вологодская область</option>
+            <option value="Воронежская область">Воронежская область</option>
+            <option value="г. Москва">г. Москва</option>
+            <option value="Еврейская автономная область">Еврейская автономная область</option>
+            <option value="Забайкальский край">Забайкальский край</option>
+            <option value="Ивановская область">Ивановская область</option>
+            <option value="Иркутская область">Иркутская область</option>
+            <option value="Кабардино-Балкарская Республика">Кабардино-Балкарская Республика</option>
+            <option value="Калининградская область">Калининградская область</option>
+            <option value="Калужская область">Калужская область</option>
+            <option value="Камчатский край">Камчатский край</option>
+            <option value="Карачаево-Черкесская Республика">Карачаево-Черкесская Республика</option>
+            <option value="Кемеровская область">Кемеровская область</option>
+            <option value="Кировская область">Кировская область</option>
+            <option value="Костромская область">Костромская область</option>
+            <option value="Краснодарский край">Краснодарский край</option>
+            <option value="Красноярский край">Красноярский край</option>
+            <option value="Курганская область">Курганская область</option>
+            <option value="Курская область">Курская область</option>
+            <option value="Ленинградская область">Ленинградская область</option>
+            <option value="Липецкая область">Липецкая область</option>
+            <option value="Магаданская область">Магаданская область</option>
+            <option value="Московская область">Московская область</option>
+            <option value="Мурманская область">Мурманская область</option>
+            <option value="Ненецкий автономный округ">Ненецкий автономный округ</option>
+            <option value="Нижегородская область">Нижегородская область</option>
+            <option value="Новгородская область">Новгородская область</option>
+            <option value="Новосибирская область">Новосибирская область</option>
+            <option value="Омская область">Омская область</option>
+            <option value="Оренбургская область">Оренбургская область</option>
+            <option value="Орловская область">Орловская область</option>
+            <option value="Пензенская область">Пензенская область</option>
+            <option value="Пермский край">Пермский край</option>
+            <option value="Приморский край">Приморский край</option>
+            <option value="Псковская область">Псковская область</option>
+            <option value="Республика Адыгея (Адыгея)">Республика Адыгея (Адыгея)</option>
+            <option value="Республика Алтай">Республика Алтай</option>
+            <option value="Республика Башкортостан">Республика Башкортостан</option>
+            <option value="Республика Бурятия">Республика Бурятия</option>
+            <option value="Республика Дагестан">Республика Дагестан</option>
+            <option value="Республика Ингушетия">Республика Ингушетия</option>
+            <option value="Республика Калмыкия">Республика Калмыкия</option>
+            <option value="Республика Карелия">Республика Карелия</option>
+            <option value="Республика Коми">Республика Коми</option>
+            <option value="Республика Крым">Республика Крым</option>
+            <option value="Республика Марий Эл">Республика Марий Эл</option>
+            <option value="Республика Мордовия">Республика Мордовия</option>
+            <option value="Республика Саха (Якутия)">Республика Саха (Якутия)</option>
+            <option value="Республика Северная Осетия - Алания">Республика Северная Осетия - Алания</option>
+            <option value="Республика Татарстан (Татарстан)">Республика Татарстан (Татарстан)</option>
+            <option value="Республика Тыва">Республика Тыва</option>
+            <option value="Республика Хакасия">Республика Хакасия</option>
+            <option value="Ростовская область">Ростовская область</option>
+            <option value="Рязанская область">Рязанская область</option>
+            <option value="Самарская область">Самарская область</option>
+            <option value="Санкт-Петербург">Санкт-Петербург</option>
+            <option value="Саратовская область">Саратовская область</option>
+            <option value="Сахалинская область">Сахалинская область</option>
+            <option value="Свердловская область">Свердловская область</option>
+            <option value="Севастополь">Севастополь</option>
+            <option value="Смоленская область">Смоленская область</option>
+            <option value="Ставропольский край">Ставропольский край</option>
+            <option value="Тамбовская область">Тамбовская область</option>
+            <option value="Тверская область">Тверская область</option>
+            <option value="Томская область">Томская область</option>
+            <option value="Тульская область">Тульская область</option>
+            <option value="Тюменская область">Тюменская область</option>
+            <option value="Удмуртская Республика">Удмуртская Республика</option>
+            <option value="Ульяновская область">Ульяновская область</option>
+            <option value="Хабаровский край">Хабаровский край</option>
+            <option value="Ханты-Мансийский автономный округ - Югра">Ханты-Мансийский автономный округ - Югра</option>
+            <option value="Челябинская область">Челябинская область</option>
+            <option value="Чеченская Республика">Чеченская Республика</option>
+            <option value="Чувашская Республика - Чувашия">Чувашская Республика - Чувашия</option>
+            <option value="Чукотский автономный округ">Чукотский автономный округ</option>
+            <option value="Ямало-Ненецкий автономный округ">Ямало-Ненецкий автономный округ</option>
+            <option value="Ярославская область">Ярославская область</option>
+          </select>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">Message</label>
+          <textarea class="form-input bg-white w-full py-2 px-3 rounded-md text-gray-700" name="message" placeholder="Any notes"></textarea>
+        </div>
+        <div class="text-center mt-8">
+          <button type="submit"
+            class="bg-red-500 w-full text-white py-2 px-4 rounded-md hover:bg-red-600">Submit</button>
+        </div>
+      </div>
+      <br><br>
+    </form>
+  </div>
+
+  <script>
+    $(function(){
+      var requiredCheckboxes = $('#cu_in_so :checkbox[required]');
+      requiredCheckboxes.change(function(){
+          if(requiredCheckboxes.is(':checked')) {
+              requiredCheckboxes.removeAttr('required');
+          } else {
+              requiredCheckboxes.attr('required', 'required');
+          }
+      });
+  });
+
+  $(function(){
+      var requiredCheckboxes = $('#doc_sel :checkbox[required]');
+      requiredCheckboxes.change(function(){
+          if(requiredCheckboxes.is(':checked')) {
+              requiredCheckboxes.removeAttr('required');
+          } else {
+              requiredCheckboxes.attr('required', 'required');
+          }
+      });
+  });
+
+  $(function(){
+      var requiredCheckboxes = $('#mo_re :checkbox[required]');
+      requiredCheckboxes.change(function(){
+          if(requiredCheckboxes.is(':checked')) {
+              requiredCheckboxes.removeAttr('required');
+          } else {
+              requiredCheckboxes.attr('required', 'required');
+          }
+      });
+  });
+  </script>
+
+
+  {% include 'app/section/footer.html' %}

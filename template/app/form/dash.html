@@ -1,0 +1,81 @@
+{% include 'app/section/header.html' %}
+{% load static %}
+<title>Dash</title>
+
+<body>
+
+    {% include 'app/section/nav.html' %}
+
+    {% if messages %}
+    <div class="alerts-list absolute right-0 mr-4">
+        {% for message in messages %}
+        <div onclick="this.style.display='none';"
+            class="p-2 bg-blue-200 text-blue-800 cursor-pointer p-4 text-sm rounded border border-blue-300 my-3">
+            {{message}}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <main class="flex-1 min-w-0 px-2">
+
+
+        <!-- component -->
+        <div class="container mx-auto bg-gray-50 min-h-screen p-8 xs:px-3 md:px-3 antialiased">
+            <div style="display: block;margin: auto;" class="w-full sm:w-full xl:w-3/5 lg:w-3/5 md:w-full xs:w-full">
+                <h2 class="italic text-red-500 text-3xl font-bold mb-4 border-b-4 border-red-500">Your Applications : </h2>
+                {% for x in applications %}
+                <!-- start  -->
+                <div class="mb-1 bg-gray-100 mx-auto border-gray-500 border rounded-sm text-gray-700 h-30">
+                    <div class="cursor-pointer flex p-3 border-l-8 border-red-500" onclick="window.location.href='{{x.pk}}';">
+                        <div class="space-y-1 border-r-2 pr-3">
+                            <div class="text-sm leading-5 font-semibold"><span
+                                    class="text-xs leading-4 font-normal text-gray-500"> Legal Status #</span> {{x.legal_status_of_user}}
+                            </div>
+                            <div class="text-sm leading-5 font-semibold"><span
+                                    class="text-xs leading-4 font-normal text-gray-500 pr"> ID #</span> {{x.id}}</div>
+                            <div class="text-sm leading-5 font-semibold">{{x.created_at}}</div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="ml-3 space-y-1 border-r-2 pr-3">
+                                <div class="text-base leading-6 font-normal">{{x.user}}</div>
+                                <div class="text-sm leading-4 font-normal"><span
+                                        class="text-xs leading-4 font-normal text-gray-500"> Age</span> {{x.age_of_user}}</div>
+                                <div class="text-sm leading-4 font-normal"><span
+                                        class="text-xs leading-4 font-normal text-gray-500"> Region</span> {{x.region}}</div>
+                            </div>
+                        </div>
+                        <div class="border-r-2 pr-3">
+                            <div>
+                                <div class="ml-3 my-3 border-gray-200 border-2 bg-gray-300 p-1">
+                                    <div class="uppercase text-xs leading-4 font-medium">Amount</div>
+                                    <div class="text-center text-sm leading-4 font-semibold text-gray-800">{{x.loan_amount}}</div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        <div>
+                            <div class="ml-3 my-5 bg-red-600 p-1 w-20">
+                                <div class="uppercase text-xs leading-4 font-semibold text-center text-white">
+                                    {{x.mfi_loan_process_loan.status}}</div>
+                            </div>
+                            <div class="ml-3 my-3 border-gray-200 border-2 bg-gray-300 p-1">
+                                <div class="text-center text-sm leading-4 font-semibold text-gray-800">{{x.loan_tenure_in_days}} Days</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end -->
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </main>
+    </head>
+
+
+    {% include 'app/section/footer.html' %}

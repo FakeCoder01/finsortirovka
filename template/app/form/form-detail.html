@@ -1,0 +1,167 @@
+{% include 'app/section/header.html' %}
+{% load static %}
+<title>Loan Details</title>
+
+<body>
+
+    {% include 'app/section/nav.html' %}
+
+    {% if messages %}
+    <div class="alerts-list absolute right-0 mr-4">
+        {% for message in messages %}
+        <div onclick="this.style.display='none';"
+            class="p-2 bg-blue-200 text-blue-800 cursor-pointer p-4 text-sm rounded border border-blue-300 my-3">
+            {{message}}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <main class="flex-1 min-w-0 px-2">
+
+        <table class="wrapper all-font-sans" width="100%" height="100%" cellpadding="0" cellspacing="0"
+            role="presentation">
+            <tr>
+                <td align="center" style="padding: 24px;" width="100%">
+                    <table class="sm-w-full" width="600" cellpadding="0" cellspacing="0" role="presentation">
+
+                        <tr>
+
+                            <td align="left" class="sm-p-20 sm-dui17-b-t"
+                                style="border-radius: 2px; padding: 40px; position: relative; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05); vertical-align: top; z-index: 50;"
+                                bgcolor="#ffffff" valign="top">
+                                <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                                    <tr>
+                                        <td width="80%">
+                                            <h1 class="sm-text-lg all-font-roboto"
+                                                style="font-weight: 700; line-height: 100%; margin: 0; margin-bottom: 4px; font-size: 24px;">
+                                                MFI Loan Form</h1>
+                                            <p class="sm-text-xs" style="margin: 0; color: #a0aec0; font-size: 14px;">
+                                                Your application status is now <span class="text-green-500">{{application.mfi_loan_process_loan.status}}</span></p>
+                                        </td>
+                                        <td style="text-align: right;" width="20%" align="right" title="Upload Documents">
+                                            <a href="upload" target="_blank" class="text-white bg-red-500 px-3 py-2 hover:bg-red-600">
+                                                Documents
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div style="line-height: 32px;">&zwnj;</div>
+                                <table class="sm-leading-32" style="line-height: 28px; font-size: 14px;" width="100%"
+                                    cellpadding="0" cellspacing="0" role="presentation">
+                                    <tr>
+                                        <td class="sm-inline-block" style="color: #718096;" width="50%">Name</td>
+                                        <td class="sm-inline-block" style="font-weight: 600; text-align: right;"
+                                            width="50%" align="right">{{application.user}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="sm-inline-block" style="color: #718096;" width="50%">Age</td>
+                                        <td class="sm-inline-block" style="font-weight: 600; text-align: right;"
+                                            width="50%" align="right">{{application.age_of_user}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="sm-w-1-4 sm-inline-block" style="color: #718096;" width="50%">Legal Status of User
+                                        </td>
+                                        <td class="sm-w-3-4 sm-inline-block"
+                                            style="font-weight: 600; text-align: right;" width="50%" align="right">{{application.legal_status_of_user}}</td>
+                                    </tr>
+                                </table>
+                                <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                                    <tr>
+                                        <td style="padding-top: 24px; padding-bottom: 24px;">
+                                            <div style="background-color: #edf2f7; height: 2px; line-height: 2px;">
+                                                &zwnj;</div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <table class="sm-leading-32" style="line-height: 28px; font-size: 14px;" width="100%"
+                                    cellpadding="0" cellspacing="0" role="presentation">
+                                    <tr>
+                                        <td class="sm-inline-block" style="color: #718096;" width="50%">Confirm Income Source</td>
+                                        <td class="sm-inline-block" style="font-weight: 600; text-align: right;"
+                                            width="50%" align="right" id="confirm_income_source">
+                                            {{confirm_income_source}}
+                                        </td>
+                                     
+                                    </tr>
+                                    <tr>
+                                        <td class="sm-inline-block" style="color: #718096;" width="50%">Loan Amount</td>
+                                        <td class="sm-inline-block" style="font-weight: 600; text-align: right;"
+                                            width="50%" align="right">{{application.loan_amount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="sm-w-1-4 sm-inline-block" style="color: #718096;" width="50%">Loan Tenure
+                                        </td>
+                                        <td class="sm-w-3-4 sm-inline-block"
+                                            style="font-weight: 600; text-align: right;" width="50%" align="right">{{application.loan_tenure_in_days}} days</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="sm-w-1-4 sm-inline-block" style="color: #718096;" width="50%">Loan Type
+                                        </td>
+                                        <td class="sm-w-3-4 sm-inline-block"
+                                            style="font-weight: 600; text-align: right;" width="50%" align="right">{{application.loan_type}}</td>
+                                    </tr>
+                                </table>
+                              
+                                <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                                    <tr>
+                                        <td style="padding-top: 24px; padding-bottom: 24px;">
+                                            <div style="background-color: #edf2f7; height: 2px; line-height: 2px;">
+                                                &zwnj;</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table style="line-height: 28px; font-size: 14px;" width="100%" cellpadding="0"
+                                    cellspacing="0" role="presentation">
+                                    <tr title="Upload Documents"> 
+                                        <td style="color: #718096;" width="50%">Documents</td>
+                                        <td style="font-weight: 600; text-align: right; color: red;" width="50%" align="right">
+                                            <a href="upload" target="_blank">
+                                                {% for x in application.documents.all %}
+                            
+                                                {{x.document_name}},
+                                                {% endfor %}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #718096;" width="50%">Method of Receiving Money</td>
+                                        <td style="font-weight: 600; text-align: right;" width="50%" align="right">
+                                            {{method_of_receiving_money}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #718096;" width="50%">Region</td>
+                                        <td style="font-weight: 600; text-align: right;" width="50%" align="right">
+                                            {{application.region}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #718096;" width="50%">Message</td>
+                                        <td style="font-weight: 600; text-align: right;" width="50%" align="right">
+                                            {{application.message}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: 600; padding-top: 32px; color: #000000; font-size: 20px;"
+                                            width="50%">Status</td>
+                                        <td style="font-weight: 600; padding-top: 32px; text-align: right; color: #68d391; font-size: 20px;"
+                                            width="50%" align="right">{{application.mfi_loan_process_loan.status}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+
+    </main>
+
+
+
+    {% include 'app/section/footer.html' %}

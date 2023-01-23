@@ -1,0 +1,127 @@
+{% include 'app/section/header.html' %}
+{% load static %}
+<title>{{page_title}}</title>
+<body>
+
+    {% include 'app/section/nav.html' %}
+
+    {% if messages %}
+        <div class="alerts-list absolute right-0 mr-4">
+            {% for message in messages %}
+                <div onclick="this.style.display='none';" class="p-2 bg-blue-200 text-blue-800 cursor-pointer p-4 text-sm rounded border border-blue-300 my-3">
+                    {{message}}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <main class="flex-1 min-w-0 px-2 mb-8">
+
+        <section class="h-screen bg-gray-100/50 pt-8">
+            <form action="" class="container max-w-2xl mx-auto my-2 shadow-md md:w-3/4" method="POST">
+                {% csrf_token %}
+                <div class="space-y-6 bg-white">
+                    <h1 class="text-center text-xl pt-2 font-bold text-red-500 sm:text-2xl">
+                        Manage Profile
+                    </h1>
+
+                    <div class="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0">
+                        <h2 class="max-w-sm mx-auto md:w-1/3">
+                            Name
+                        </h2>
+                        <div class="max-w-sm mx-auto md:w-2/3 space-y-4 ">
+                            <div>
+                                <div class=" relative ">
+                                    <input type="text" id="user-info-first_name" value="{{request.user.first_name}}" 
+                                        class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                        placeholder="First name" name="first_name" required/>
+                                </div>
+                            </div>
+                            <div>
+                                <div class=" relative ">
+                                    <input type="text" id="user-info-last_name" value="{{request.user.last_name}}" 
+                                        class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                        placeholder="Last name" name="last_name" required/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0">
+                        <h2 class="max-w-sm mx-auto md:w-1/3">
+                            Personal info
+                        </h2>
+                        <div class="max-w-sm mx-auto space-y-5 md:w-2/3">
+                            <div>
+                                <div class="relative ">
+                                    <input type="tel" id="user-info-phone" {% if request.user.userprofile.phone %} value="{{request.user.userprofile.phone}}" {% endif %}
+                                        class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                        placeholder="Phone number" name="phone" required/>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="relative">
+                                    <input type="text" id="user-info-address" {% if request.user.userprofile.address %} value="{{request.user.userprofile.address}}" {% endif %}
+                                        class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                        placeholder="Address" name="address" required/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="items-center w-full p-8 space-y-4 text-gray-500 md:inline-flex md:space-y-0">
+                        <h2 class="max-w-sm mx-auto md:w-4/12">
+                            Demographic
+                        </h2>
+                        <div class="max-w-sm mx-auto md:w-2/3">
+
+                            <div class=" relative ">
+
+                                <select class="items-center w-full px-4 py-2 text-lg space-y-4 text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" name="gender" required>
+                                    <option selected disabled>
+                                        Select your gender
+                                    </option>
+                                    {% if request.user.userprofile.gender %}
+                                    <option value="{{request.user.userprofile.gender}}" selected>
+                                        {{request.user.userprofile.gender}}
+                                    </option>
+                                    {% endif %}
+                                    <option value="Male">
+                                        Male
+                                    </option>
+                                    <option value="Female">
+                                        Female
+                                    </option>
+                                    <option value="Other">
+                                        Other
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+      
+                    </div>
+                    <hr />
+                    <div class="w-full px-4 mb-14 pb-4 text-gray-500 ">
+                        <button type="submit"  style="float: right;"
+                            class="py-2 w-full xl:w-1/3 bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                            Save
+                        </button> 
+                        <button type="button" onclick="window.location.href='/logout';" 
+                            class="py-2 w-full xl:w-1/3 mt-2 xl:mt-0 px-2 bg-blue-400 hover:bg-blue-700 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                            Logout
+                        </button>
+                        
+                    </div>
+                    <hr>
+                </div> 
+
+            </form>
+        </section>
+
+
+    </main>
+<br><br><br><br><br><br><br>
+
+{% include 'app/section/footer.html' %}
